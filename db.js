@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const {
-  DB_URL = "mongodb://localhost/games",
+  DB_URL = "mongodb://localhost:27017/games",
 } = process.env
 
 const main = async () => {
