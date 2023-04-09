@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { body, validationResult } = require('express-validator');
 
 const {
   PORT = 3333,
@@ -55,7 +56,15 @@ app.get(`${fullAPIRoot}/games/:id?`, async (req, res) => {
   }
 });
 
-app.post(`${fullAPIRoot}/games/`, async (req, res) => {
+app.post(`${fullAPIRoot}/games/`, [
+  body('title').isString().notEmpty().trim(),
+  body('games_console').isString().notEmpty().trim(),
+  body('cover_url').isString().notEmpty().trim()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const gameData = req.body;
   console.log("gameData", gameData);
   try {
@@ -67,10 +76,17 @@ app.post(`${fullAPIRoot}/games/`, async (req, res) => {
   }
 });
 
-app.put(`${fullAPIRoot}/games/:id`, async (req, res) => {
+app.put(`${fullAPIRoot}/games/:id`, [
+  body('title').isString().optional().trim(),
+  body('games_console').isString().optional().trim(),
+  body('cover_url').isString().optional().trim()
+] , async (req, res) => {
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const updateData = req.body;
   console.log(`Updating ${req.params.id}`, updateData);
-
     try {
       const result = await Game.updateOne({ _id: req.params.id }, req.body);
       if(result.n === 0) return res.sendStatus(404)
