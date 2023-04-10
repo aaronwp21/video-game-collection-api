@@ -1,6 +1,6 @@
 const { body, validationResult } = require('express-validator');
 const Game = require("../models/game.model")
-const fullAPIRoot = require("../routes/games.routes");
+const fullAPIRoot = require("../routes/index");
 
 module.exports = function (app) {
   app.get(`${fullAPIRoot}/games/:id?`, async (req, res) => {
