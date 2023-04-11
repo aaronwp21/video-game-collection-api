@@ -1,9 +1,9 @@
-const express = require("express")
+const express = require('express');
 
 const app = express();
 
-require("./middleware")(app);
-require("./db");
-require("./controllers/game.controller")(app);
+require('./middleware')(app);
+require('./db');
+require('./routes/index')(app);
 
 module.exports = app;

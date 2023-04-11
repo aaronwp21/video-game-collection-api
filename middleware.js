@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 
-module.exports = function(app) {
-  app.use(express.static("public"));
+module.exports = function (app) {
+  app.use(express.static('public'));
   app.use(express.json());
-}
+};
